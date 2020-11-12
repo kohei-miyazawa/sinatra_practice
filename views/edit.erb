@@ -1,0 +1,14 @@
+<h2>メモ編集</h2>
+
+<form action="/memos/<%= @memo[:id] %>" method="post">
+  <h3>タイトル</h3>
+  <div>
+    <input type="text" class="form" name="title" value="<%= @memo[:title] %>" input required>
+  </div>
+  <h3>内容</h3>
+  <div>
+    <textarea name="body" class="form" input required><%= @memo[:body] %></textarea>
+  </div>
+  <input type="hidden" name="_method" value="patch">
+  <input type="submit" class="btn" value="変更">
+</form>
