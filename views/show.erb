@@ -4,3 +4,7 @@
 </div>
 
 <a class="btn" href="/memos/edit/<%= @memo[:id] %>">変更</a>
+<form method="post" action="/memos/<%= @memo[:id] %>">
+  <input type="hidden" name="_method" value="delete">
+  <input type="submit" class="btn" value="削除">
+</form>

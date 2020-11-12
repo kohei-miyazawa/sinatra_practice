@@ -8,18 +8,24 @@ require "json"
 require "pry"
 
 class Memo
-  def self.create(title: memo_title, body: memo_body)
-    h = { id: SecureRandom.uuid, title: title, body: body }
-    File.open("model/#{h[:id]}.json", "w") { |f| f.puts JSON.pretty_generate(h) }
-  end
+  class << self
+    def create(title: memo_title, body: memo_body)
+      h = { id: SecureRandom.uuid, title: title, body: body }
+      File.open("model/#{h[:id]}.json", "w") { |f| f.puts JSON.pretty_generate(h) }
+    end
 
-  def self.find(id: memo_id)
-    JSON.parse(File.read("model/#{id}.json"), symbolize_names: true)
-  end
+    def find(id: memo_id)
+      JSON.parse(File.read("model/#{id}.json"), symbolize_names: true)
+    end
 
-  def self.update(id: memo_id, title: memo_title, body: memo_body)
-    h = { id: id, title: title, body: body }
-    File.open("model/#{h[:id]}.json", "w") { |f| f.puts JSON.pretty_generate(h) }
+    def update(id: memo_id, title: memo_title, body: memo_body)
+      h = { id: id, title: title, body: body }
+      File.open("model/#{h[:id]}.json", "w") { |f| f.puts JSON.pretty_generate(h) }
+    end
+
+    def destroy(id: memo_id)
+      File.delete("model/#{id}.json")
+    end
   end
 end
 
@@ -51,4 +57,9 @@ end
 patch "/memos/:id" do
   Memo.update(id: params[:id], title: params[:title], body: params[:body])
   redirect to("/memos/#{params[:id]}")
+end
+
+delete "/memos/:id" do
+  Memo.destroy(id: params[:id])
+  redirect to("/")
 end
