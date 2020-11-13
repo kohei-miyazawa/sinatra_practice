@@ -4,15 +4,15 @@ require 'bundler/setup'
 require 'sinatra'
 require 'sinatra/reloader'
 require 'pry'
-require "pg"
+require 'pg'
 
 # Memo class
 class Memo
-  CONNECT = PG.connect(host: "localhost", user: "postgres", password: "postgres", dbname: "sinatra_practice")
+  CONNECT = PG.connect(host: 'localhost', user: 'postgres', password: 'postgres', dbname: 'sinatra_practice')
 
   class << self
     def all
-      CONNECT.exec("SELECT * FROM memos")
+      CONNECT.exec('SELECT * FROM memos')
     end
 
     def create(title: memo_title, body: memo_body)
