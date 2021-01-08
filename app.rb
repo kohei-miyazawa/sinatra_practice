@@ -20,7 +20,10 @@ class Memo
   class << self
     def all
       files = Dir.glob('model/*').sort_by { |f| File.mtime(f) }.reverse
-      files.map { |file| JSON.parse(File.read(file), symbolize_names: true) }
+      files.map do |file|
+        json_data = JSON.parse(File.read(file), symbolize_names: true)
+        Memo.new(id: json_data[:id], title: json_data[:title], body: json_data[:body])
+      end
     end
 
     def create(title: memo_title, body: memo_body)
