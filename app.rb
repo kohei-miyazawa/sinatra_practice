@@ -17,19 +17,19 @@ class Memo
     end
 
     def create(title, body)
-      CONNECT.exec("INSERT INTO memos (title, body) VALUES ('#{title}', '#{body}')")
+      CONNECT.exec("INSERT INTO memos (title, body) VALUES ($1, $2)", [title, body])
     end
 
     def find(id)
-      CONNECT.exec("SELECT * FROM memos WHERE id = '#{id}'").first
+      CONNECT.exec("SELECT * FROM memos WHERE id = $1", [id]).first
     end
 
     def update(id, title, body)
-      CONNECT.exec("UPDATE memos SET title = '#{title}', body = '#{body}' WHERE id = '#{id}'")
+      CONNECT.exec("UPDATE memos SET title = $2, body = $3 WHERE id = $1", [id, title, body])
     end
 
     def destroy(id)
-      CONNECT.exec("DELETE FROM memos WHERE id = #{id}")
+      CONNECT.exec("DELETE FROM memos WHERE id = $1", [id])
     end
   end
 end
