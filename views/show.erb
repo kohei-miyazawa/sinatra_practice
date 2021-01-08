@@ -1,6 +1,6 @@
-<h2><%= @memo[:title] %></h2>
+<h2><%= h(@memo[:title]) %></h2>
 <div class="memo_body">
-  <p><%= @memo[:body] %></p>
+  <p><%= h(@memo[:body]) %></p>
 </div>
 
 <div class="flex_box">

@@ -35,6 +35,12 @@ class Memo
   end
 end
 
+helpers do
+  def h(str)
+    Rack::Utils.escape_html(str)
+  end
+end
+
 get '/' do
   @memos = Memo.all
   erb :index
