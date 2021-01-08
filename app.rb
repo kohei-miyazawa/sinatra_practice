@@ -7,8 +7,14 @@ require 'securerandom'
 require 'json'
 require 'pry'
 
+# Memo class
 class Memo
   class << self
+    def all
+      files = Dir.glob('model/*').sort_by { |f| File.mtime(f) }.reverse
+      files.map { |file| JSON.parse(File.read(file), symbolize_names: true) }
+    end
+
     def create(title: memo_title, body: memo_body)
       h = { id: SecureRandom.uuid, title: title, body: body }
       File.open("model/#{h[:id]}.json", 'w') { |f| f.puts JSON.pretty_generate(h) }
@@ -30,8 +36,7 @@ class Memo
 end
 
 get '/' do
-  files = Dir.glob('model/*').sort_by { |f| File.mtime(f) }.reverse
-  @memos = files.map { |file| JSON.parse(File.read(file), symbolize_names: true) }
+  @memos = Memo.all
   erb :index
 end
 
