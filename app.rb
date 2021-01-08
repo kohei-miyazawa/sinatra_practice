@@ -5,10 +5,11 @@ require 'sinatra'
 require 'sinatra/reloader'
 require 'pry'
 require 'pg'
+require 'dotenv/load'
 
 # Memo class
 class Memo
-  CONNECT = PG.connect(host: 'localhost', user: 'postgres', password: 'postgres', dbname: 'sinatra_practice')
+  CONNECT = PG.connect(host: ENV['DATABASE_HOST'], user: ENV['DATABASE_USER'], password: ENV['DATABASE_PASSWORD'], dbname: ENV['DATABASE_NAME'])
 
   class << self
     def all
