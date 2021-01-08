@@ -9,6 +9,14 @@ require 'pry'
 
 # Memo class
 class Memo
+  attr_reader :id, :title, :body
+
+  def initialize(id:, title:, body:)
+    @id = id
+    @title = title
+    @body = body
+  end
+
   class << self
     def all
       files = Dir.glob('model/*').sort_by { |f| File.mtime(f) }.reverse
@@ -21,7 +29,8 @@ class Memo
     end
 
     def find(id: memo_id)
-      JSON.parse(File.read("model/#{id}.json"), symbolize_names: true)
+      json_data = JSON.parse(File.read("model/#{id}.json"), symbolize_names: true)
+      Memo.new(id: json_data[:id], title: json_data[:title], body: json_data[:body])
     end
 
     def update(id: memo_id, title: memo_title, body: memo_body)
