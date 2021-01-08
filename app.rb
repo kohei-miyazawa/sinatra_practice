@@ -21,7 +21,7 @@ class Memo
     end
 
     def find(id: memo_id)
-      CONNECT.exec("SELECT * FROM memos WHERE id = '#{id}'")
+      CONNECT.exec("SELECT * FROM memos WHERE id = '#{id}'").first
     end
 
     def update(id: memo_id, title: memo_title, body: memo_body)
