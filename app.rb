@@ -16,19 +16,19 @@ class Memo
       CONNECT.exec('SELECT * FROM memos')
     end
 
-    def create(title: memo_title, body: memo_body)
+    def create(title, body)
       CONNECT.exec("INSERT INTO memos (title, body) VALUES ('#{title}', '#{body}')")
     end
 
-    def find(id: memo_id)
+    def find(id)
       CONNECT.exec("SELECT * FROM memos WHERE id = '#{id}'").first
     end
 
-    def update(id: memo_id, title: memo_title, body: memo_body)
+    def update(id, title, body)
       CONNECT.exec("UPDATE memos SET title = '#{title}', body = '#{body}' WHERE id = '#{id}'")
     end
 
-    def destroy(id: memo_id)
+    def destroy(id)
       CONNECT.exec("DELETE FROM memos WHERE id = #{id}")
     end
   end
@@ -50,26 +50,26 @@ get '/memos/new' do
 end
 
 post '/memos/new' do
-  Memo.create(title: params[:title], body: params[:body])
+  Memo.create(params[:title], params[:body])
   redirect to('/')
 end
 
 get '/memos/:id' do
-  @memo = Memo.find(id: params[:id])
+  @memo = Memo.find(params[:id])
   erb :show
 end
 
 get '/memos/edit/:id' do
-  @memo = Memo.find(id: params[:id])
+  @memo = Memo.find(params[:id])
   erb :edit
 end
 
 patch '/memos/:id' do
-  Memo.update(id: params[:id], title: params[:title], body: params[:body])
+  Memo.update(params[:id], params[:title], params[:body])
   redirect to("/memos/#{params[:id]}")
 end
 
 delete '/memos/:id' do
-  Memo.destroy(id: params[:id])
+  Memo.destroy(params[:id])
   redirect to('/')
 end
